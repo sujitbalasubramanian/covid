@@ -10,6 +10,17 @@ const constantRoutes = require('./routes/constant_routes')
 const app = express();
 dotenv.config()
 app.use(express.json())
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Headers", "*")
+    res.header(
+        "Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE"
+    )
+    res.header(
+        "Access-Control-Allow-Headers", "Content-Type, x-requested-with"
+
+    )
+    next();
+})
 
 mongoose.connect(process.env.DB).then(() => {
     console.log('Db connection open')
