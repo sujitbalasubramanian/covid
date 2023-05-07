@@ -50,6 +50,8 @@ module.exports.completeAppointment = async (req, res) => {
     try {
         const user = await User.findOne({mobile_number: req.body.patient})
         const dose = await Doseage.findOneAndUpdate({patient: user._id, appointment_status: 'active'}, {appointment_status: 'completed', vaccination_done: true});
+        await user.updateOne({doses: [...user.doses, dose._id]})
+        console.log(user)
         res.status(200).json("Completed Successfully");
     } catch (error) {
         res.status(500).json(error);
